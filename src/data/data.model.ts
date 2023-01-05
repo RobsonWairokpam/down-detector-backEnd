@@ -1,16 +1,36 @@
-import { Records as PrismaRecord } from '@prisma/client';
+import { Record as PrismaRecord } from '@prisma/client';
+import { Server as PrismaServer } from '@prisma/client';
 
-export type IUser = PrismaRecord;
-export type IUserData = Omit<IUser, 'iid' | 'createdAt' | 'updatedAt'>;
+export type IServer = PrismaServer;
+export type IServerData = Omit<IServer, 'id'>;
 
-export class Data implements Omit<IUser, 'createdAt' | 'updatedAt'> {
-  status: string;
+export type IRecord = PrismaRecord;
+export type IRecordData = Omit<
+  IRecord,
+  'id' | 'serverId' | 'createdAt' | 'updatedAt'
+> & { url: string };
+
+export class Server implements Omit<IServer, 'createdAt' | 'updatedAt'> {
+  id: number;
+  ip: string;
   url: string;
-  date: string;
-  iid: number;
+  server: string;
 }
-export class DataInput implements IUserData {
+
+export class ServerDataInput implements IServerData {
+  server: string;
+  ip: string;
+  url: string;
+}
+
+export class Record
+  implements Omit<IRecord, 'serverId' | 'createdAt' | 'updatedAt'>
+{
+  id: number;
+  status: string;
+}
+
+export class RecordDataInput implements IRecordData {
   status: string;
   url: string;
-  date: string;
 }

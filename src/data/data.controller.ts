@@ -6,44 +6,48 @@ import {
   ParseIntPipe,
   Post,
 } from '@nestjs/common';
-import { DataInput } from './data.model';
+import { RecordDataInput, ServerDataInput } from './data.model';
 import { DataService } from './data.service';
 
 @Controller('/data')
 export class DataController {
   constructor(private readonly service: DataService) {}
 
-  @Post('/create')
-  createUsero(
+  @Post('/create/')
+  createRecords(
     @Body()
-    data: DataInput,
+    data: RecordDataInput[],
   ) {
-    return this.service.createUser(data);
+    return this.service.createRecords(data);
   }
 
-  @Post('/getAll')
-  getting(
+  @Post('/createServers')
+  createList(
     @Body()
-    records: [],
+    records: ServerDataInput[],
   ) {
-    return this.service.getting(records);
+    return this.service.createList(records);
+  }
+  @Post('/createServer')
+  createserver(
+    @Body()
+    data: ServerDataInput,
+  ) {
+    return this.service.createServer(data);
   }
 
-  @Get('/')
-  getUser() {
-    return this.service.getUser();
-  }
-  @Get('/some/:size/:page')
-  async getSOme(
-    @Param('size', ParseIntPipe) size: number,
-    @Param('page', ParseIntPipe) page: number,
-  ) {
-    const { data, count } = await this.service.getsom(size, page);
-    return { data, count };
+  @Get('/list')
+  getUrlList() {
+    return this.service.findLists();
   }
 
-  @Get('/:id')
-  getById(@Param('id', ParseIntPipe) id: number) {
-    return this.service.unique(id);
+  @Get('/records/:serverId')
+  getRecordsbyUrlId(@Param('serverId', ParseIntPipe) serverId: number) {
+    return this.service.findRecordsByUrlId(serverId);
+  }
+
+  @Get('/oneRecord/:serverId')
+  getOneRecoord(@Param('serverId', ParseIntPipe) serverId: number) {
+    return this.service.findOneRecord(serverId);
   }
 }
