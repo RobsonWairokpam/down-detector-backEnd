@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { RecordDataInput, ServerDataInput } from './data.model';
 import { DataService } from './data.service';
@@ -37,6 +38,15 @@ export class DataController {
   @Get('/records/:serverId')
   getRecordsbyUrlId(@Param('serverId', ParseIntPipe) serverId: number) {
     return this.service.findRecordsByUrlId(serverId);
+  }
+
+  @Put('/url/update/:id')
+  updateServer(
+    @Param('id', ParseIntPipe) id: number,
+    @Body()
+    data: ServerDataInput,
+  ) {
+    return this.service.updateServer(data, id);
   }
 
   @Get('/oneRecord/:serverId')

@@ -38,6 +38,17 @@ export class DataService {
     return res;
   }
 
+  async updateServer(data: IServerData, id: number) {
+    const res = await this.prisma.server.update({
+      where: {
+        id: id,
+      },
+      data,
+    });
+
+    return res;
+  }
+
   async createList(data: IServerData[]) {
     const res = await this.prisma.server.createMany({
       data: data.map((d) => ({
