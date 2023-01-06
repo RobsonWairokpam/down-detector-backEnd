@@ -73,6 +73,15 @@ export class DataService {
     return lists;
   }
 
+  async findUrl(id: number) {
+    const lists = await this.prisma.server.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return lists;
+  }
+
   async findOneRecord(urlId: number) {
     const res = await this.prisma.record.findFirst({
       where: {

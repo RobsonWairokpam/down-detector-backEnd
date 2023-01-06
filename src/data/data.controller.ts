@@ -35,6 +35,11 @@ export class DataController {
     return this.service.findLists();
   }
 
+  @Get('/url/:id')
+  getUrl(@Param('id', ParseIntPipe) id: number) {
+    return this.service.findUrl(id);
+  }
+
   @Get('/records/:serverId')
   getRecordsbyUrlId(@Param('serverId', ParseIntPipe) serverId: number) {
     return this.service.findRecordsByUrlId(serverId);
