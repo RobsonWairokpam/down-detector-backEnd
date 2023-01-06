@@ -13,7 +13,7 @@ import { DataService } from './data.service';
 export class DataController {
   constructor(private readonly service: DataService) {}
 
-  @Post('/create/')
+  @Post('/status/create')
   createRecords(
     @Body()
     data: RecordDataInput[],
@@ -21,14 +21,7 @@ export class DataController {
     return this.service.createRecords(data);
   }
 
-  @Post('/createServers')
-  createList(
-    @Body()
-    records: ServerDataInput[],
-  ) {
-    return this.service.createList(records);
-  }
-  @Post('/createServer')
+  @Post('/url/create')
   createserver(
     @Body()
     data: ServerDataInput,
@@ -36,7 +29,7 @@ export class DataController {
     return this.service.createServer(data);
   }
 
-  @Get('/list')
+  @Get('/urlList/get')
   getUrlList() {
     return this.service.findLists();
   }
@@ -49,5 +42,13 @@ export class DataController {
   @Get('/oneRecord/:serverId')
   getOneRecoord(@Param('serverId', ParseIntPipe) serverId: number) {
     return this.service.findOneRecord(serverId);
+  }
+
+  @Post('/urlLists/create')
+  createServersList(
+    @Body()
+    records: ServerDataInput[],
+  ) {
+    return this.service.createList(records);
   }
 }

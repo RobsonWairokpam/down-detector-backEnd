@@ -9,7 +9,7 @@ export class PrismaService extends PrismaClient {
     super({
       datasources: {
         db: {
-          url: 'postgresql://postgres:postgres123@localhost:7000/sellinium?schema=public',
+          url: process.env.DATABASE_URL,
         },
       },
     });
