@@ -19,7 +19,6 @@ export class DataService {
         return [l.url, l.id];
       }),
     );
-    console.log('Mapserver', serverIdMap);
 
     const res = await this.prisma.record.createMany({
       data: data.map((d) => ({
@@ -31,6 +30,14 @@ export class DataService {
     return res;
   }
   async createServer(data: IServerData) {
+    const lists = await this.prisma.server.findUnique({
+      where: {
+        url: data.url,
+      },
+    });
+    if (lists) {
+      throw new BadRequestException('Server is already exits');
+    }
     const res = await this.prisma.server.create({
       data,
     });
@@ -63,6 +70,7 @@ export class DataService {
 
   async findLists() {
     const lists = await this.prisma.server.findMany({
+      orderBy: { createdAt: 'asc' },
       include: {
         record: { take: 1, orderBy: { createdAt: 'desc' } },
       },
@@ -93,7 +101,6 @@ export class DataService {
   }
 
   async findRecordsByUrlId(urlId: number) {
-    console.log(urlId);
     const res = await this.prisma.record.findMany({
       where: {
         server: { id: urlId },

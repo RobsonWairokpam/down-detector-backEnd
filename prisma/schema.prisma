@@ -11,11 +11,14 @@ datasource db {
 }
 
 model Server {
-  id     Int      @id @unique @default(autoincrement())
-  ip     String
-  url    String
-  server String
-  record Record[]
+  id        Int      @id @unique @default(autoincrement())
+  ip        String
+  url       String   @unique
+  server    String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  record    Record[]
 }
 
 model Record {
